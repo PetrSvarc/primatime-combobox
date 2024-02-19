@@ -1,21 +1,14 @@
-import { useUniversities } from "../hooks/useUniversitiesQuery.ts";
+import StudentDetailsForm from "../components/forms/StudentDetailsForm.tsx";
 import { useState } from "react";
-import ComboBox from "../components/inputs/ComboBox/ComboBox.tsx";
 const ComboBoxPage = () => {
-    const [filterBy, setFilterBy] = useState('')
-    const { data: universitiesData, isLoading } = useUniversities(filterBy)
-    const universities = universitiesData?.map((university) => university.name) || []
+    const [topPosition, setTopPosition] = useState(true)
     return (
-        <div>
+        <div className="combo-box-page">
             <h1>ComboBoxPage</h1>
-            <ComboBox
-                label={'Univerzita na kterou chodíte'}
-                loading={isLoading}
-                value={filterBy}
-                onChange={setFilterBy}
-                options={universities}
-                width={300}
-            />
+            <button onClick={() => setTopPosition(!topPosition)}>Change Form Position</button>
+            <div  style={{ marginTop: topPosition ? 0 : 'auto' }}>
+                <StudentDetailsForm/>
+            </div>
         </div>
     )
 }

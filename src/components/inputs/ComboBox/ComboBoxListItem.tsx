@@ -5,7 +5,7 @@ interface ComboBoxListItemProps {
 }
 const comboBoxListItem: React.FC<ComboBoxListItemProps>  = ({ item, onClick }) => {
     return (
-        <div className={'combo-box-list-item'} onClick={() => onClick(item)}>
+        <div className="combo-box-list-item" onClick={() => onClick(item)}>
             {item}
         </div>
     )

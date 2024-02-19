@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { flushSync } from 'react-dom';
-import TextInput from "../TextInput/TextInput.tsx";
+import TextInput, { ITextInputProps } from "../TextInput/TextInput.tsx";
 import ComboBoxList from "./ComboBoxList.tsx";
 import {
     useFloating,
@@ -15,16 +15,12 @@ import {
 } from '@floating-ui/react';
 
 
-interface IComboBoxProps {
-    value: string;
+export interface IComboBoxProps extends ITextInputProps {
     options: string[];
-    label?: string;
-    onChange?: (value: string) => void;
-    width?: string | number;
     loading?: boolean;
 }
 
-const ComboBox: React.FC<IComboBoxProps> = ({ label, value, onChange , options, width, loading }) => {
+const ComboBox: React.FC<IComboBoxProps> = ({ label, value, onChange , options, width, loading, error, disabled }) => {
     const [isOpen, setIsOpen] = useState(false);
     const [maxHeight, setMaxHeight] = useState<number | string>('auto');
 
@@ -37,7 +33,7 @@ const ComboBox: React.FC<IComboBoxProps> = ({ label, value, onChange , options, 
             offset(5 ),
             size({
                 apply({availableHeight}) {
-                    flushSync(() => setMaxHeight(availableHeight));
+                    flushSync(() => setMaxHeight(availableHeight - 40));
                 },
             }),
         ]
@@ -63,11 +59,13 @@ const ComboBox: React.FC<IComboBoxProps> = ({ label, value, onChange , options, 
         width: width || 'auto'
     }
     return (
-        <div className={'combo-box'} style={style}>
+        <div className="combo-box" style={style}>
             <TextInput
                 clearable
                 label={label}
                 value={value}
+                error={error}
+                disabled={disabled}
                 onChange={onChange}
                 inputRef={refs.setReference}
                 {...getReferenceProps()}

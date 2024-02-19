@@ -11,8 +11,9 @@ interface IComboBoxList {
 const ComboBoxList: React.FC<IComboBoxList> = ({ options, onSelect, style, loading, inputRef }) => {
     const uniqueOptions = Array.from(new Set(options));
     return (
-         <div className={'combo-box-list'} ref={inputRef} style={style}>
+         <div className="combo-box-list" ref={inputRef} style={style}>
              {loading && <div>Loading...</div>}
+             { uniqueOptions.length === 0 && <div>No options</div>}
              { uniqueOptions && (
                  uniqueOptions.map((option) => (
                      <ComboBoxListItem
