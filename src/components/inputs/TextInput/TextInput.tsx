@@ -9,15 +9,19 @@ export interface ITextInputProps extends Omit<React.InputHTMLAttributes<HTMLInpu
     ref?: React.Ref<HTMLInputElement>;
     onChange?: (value: string) => void;
     inputRef?: React.Ref<HTMLInputElement>;
+    width?: string | number;
 }
 
-const TextInput: React.FC<ITextInputProps> = ({value, onChange, label, error, clearable, inputRef, ...props }) => {
+const TextInput: React.FC<ITextInputProps> = ({value, onChange, label, error, clearable, inputRef, width, ...props }) => {
     const computedInputClassName = () => {
         let className = 'text-input__input'
         if (error) {
             className += ' text-input__input--error'
         }
         return className
+    }
+    const style = {
+        width: width || 'auto'
     }
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         if (onChange) {
@@ -31,13 +35,13 @@ const TextInput: React.FC<ITextInputProps> = ({value, onChange, label, error, cl
         }
     }
     return (
-        <div className={'text-input'}>
-            <label className={'text-input__label'}>{label}</label>
+        <div className="text-input" style={style}>
+            <label className="text-input__label">{label}</label>
             <div className={computedInputClassName()}>
                 <input value={value} onChange={handleChange} {...props} ref={inputRef}/>
-                {clearable && value && <CancelIcon className={'text-input__clear-button'} onClick={handleClear}/>}
+                {clearable && value && <CancelIcon className="text-input__clear-button" onClick={handleClear}/>}
             </div>
-            {error && <div className={'text-input__error'}>{error}</div>}
+            <div className="text-input__error" style={{visibility: error ? 'visible' : 'hidden'}}>{error}</div>
         </div>
     )
 }

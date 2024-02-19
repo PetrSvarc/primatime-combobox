@@ -1,15 +1,16 @@
 import React from 'react';
-import { Controller, Control, RegisterOptions } from 'react-hook-form';
+import { Controller, Control, FieldValues, RegisterOptions } from 'react-hook-form';
 import TextInput, { ITextInputProps } from "./TextInput.tsx";
 
 
-interface TextInputWithHookFormProps extends ITextInputProps {
+interface ITextInputWithControllerProps<T extends FieldValues = FieldValues> extends ITextInputProps {
     name: string;
-    control: Control;
+    control: Control<T>;
     rules?: RegisterOptions;
+
 }
 
-const TextInputWithHookForm: React.FC<TextInputWithHookFormProps> = ({ value, name, control, label, clearable, rules, ...props }) => {
+const TextInputWithController: React.FC<ITextInputWithControllerProps> = ({ name, control, rules, width, ...props }) => {
     return (
         <Controller
             name={name}
@@ -17,18 +18,17 @@ const TextInputWithHookForm: React.FC<TextInputWithHookFormProps> = ({ value, na
             rules={rules}
             render={({ field, fieldState }) => (
                 <TextInput
-                    label={label}
-                    value={value}
+                    value={field.value || ''}
                     onChange={field.onChange}
                     error={fieldState.error?.message}
-                    clearable={clearable}
                     {...props}
+                    width={width}
                 />
             )}
         />
     )
 }
 
-export default TextInputWithHookForm;
+export default TextInputWithController;
 
 
